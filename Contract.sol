@@ -24,6 +24,9 @@ contract ZombieFactory{
     // public --> solidity automatically creates a getter (read-only)
     Zombie[] public zombies;
 
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+
     // functions are public by default
     // function _createZombie(string _name, uint _dna) : public version with no return
     // if no state is modified, the function must be declared as "view"
