@@ -48,3 +48,21 @@ The use of **msg.sender** adds security to the ethereum blockchain. The only way
 
 **require** is a way to stop the function and send an error if some conditions are met.
 
+### Chapter 5: Inheritance
+
+Inheritance makes contract easier to organize.
+
+```
+contract Doge {
+  function catchphrase() public returns (string) {
+    return "So Wow CryptoDoge";
+  }
+}
+
+contract BabyDoge is Doge {
+  function anotherCatchphrase() public returns (string) {
+    return "Such Moon BabyDoge";
+  }
+}
+```
+
