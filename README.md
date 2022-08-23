@@ -43,3 +43,8 @@ function whatIsMyNumber() public view returns (uint) {
 ```
 
 The use of **msg.sender** adds security to the ethereum blockchain. The only way to modify one other's data would be to steal its private key.
+
+### Chapter 4: Require (Exige)
+
+**require** is a way to stop the function and send an error if some conditions are met.
+
