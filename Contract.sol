@@ -34,6 +34,9 @@ contract ZombieFactory{
     function _createZombie(string _name, uint _dna) private {
         // array.push returns the new length of the array
         uint id = zombies.push(Zombie(_name, _dna)) - 1; // add a zombie to the dynamic array
+        // update the mapping to store the msg.sender in this id.
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
         NewZombie(id, _name, _dna);
     }
 
