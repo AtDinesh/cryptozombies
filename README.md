@@ -100,3 +100,15 @@ contract SandwichFactory {
   }
 }
 ```
+
+### Chapter 9: function visibility
+
+There is more than **public** and **private** in Solidity: **external** and **internal**.
+
+- **public** - all can access
+- **external** - Cannot be accessed internally, only externally
+- **internal** - only this contract and contracts deriving from it can access
+- **private** - can be accessed only from this contract
+
+As you can notice **private** is a subset of **internal** and **external** is a subset of **public**.
+

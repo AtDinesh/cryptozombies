@@ -31,7 +31,7 @@ contract ZombieFactory{
     // function _createZombie(string _name, uint _dna) : public version with no return
     // if no state is modified, the function must be declared as "view"
     // if it uses no data from the app, the function must be "pure"
-    function _createZombie(string _name, uint _dna) private {
+    function _createZombie(string _name, uint _dna) internal {
         // array.push returns the new length of the array
         uint id = zombies.push(Zombie(_name, _dna)) - 1; // add a zombie to the dynamic array
         // update the mapping to store the msg.sender in this id.
