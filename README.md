@@ -112,7 +112,7 @@ There is more than **public** and **private** in Solidity: **external** and **in
 
 As you can notice **private** is a subset of **internal** and **external** is a subset of **public**.
 
-### Chapter 10: Interact with another contract
+### Chapter 10: Interact with another contract (interface)
 
 In order to interact with another contract we do not own in the blockchain, we need to define an **interface**.
 
@@ -140,6 +140,21 @@ contract NumberInterface {
 Note: 
 - only the functions we would like to interact with are defined.
 - there is no body
+- we can only interact with public and external functions.
 
 This interface will let our contract know the function of the other contract, how to call it and what return to expect.
+Here is how this interface can be used in a contract:
 
+```
+contract MyContract {
+  address NumberInterfaceAddress = 0xab38...
+  // Address of the FavoriteNumber contract on Ethereum
+  NumberInterface numberContract = NumberInterface(NumberInterfaceAddress)
+  // `numberContract` now points to the other contract
+
+  function someFunction() public {
+    // we can now call `getNum` from the contract :
+    uint num = numberContract.getNum(msg.sender);
+  }
+}
+```
