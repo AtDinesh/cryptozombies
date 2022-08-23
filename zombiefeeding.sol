@@ -4,4 +4,9 @@ import "./zombiefactory.sol";
 
 contract ZombieFeeding is ZombieFactory {
 
+    function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+        // Make sure the user owns the zombie
+        require(msg.sender == zombieToOwner[_zombieId]);
+        Zombie storage myZombie = zombies[_zombieId];
+    }
 }
