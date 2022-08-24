@@ -158,3 +158,67 @@ contract MyContract {
   }
 }
 ```
+
+## Course 3: Solidity advanced concepts
+
+### Chapter 1: Immutability of the contracts
+
+Once an Ethereum contract is deployed, it is immutable (can never be changed or updated).
+This means that if there is an issues in the code of the contract, there is no way to patch it. The users will have to use another contract that is fixed.
+
+#### External dependency
+The CryptoKitties contract is initially hard-coded. What if it has a bug ? We would not be able to change the contract to fix this.
+Thus it is useful to have functions that let us update some key parts of the DApp.
+
+However, setting such a function to **external** would be an issue since anyone would be able to change the address of the CyrptoKitties contract.
+To deal with such issue, we need to make the contracts **ownable**.
+
+### Chapter 2: Contracts with owner.
+#### The OpenZeppelin ownable contract
+
+The owner of a contract has special privileges.
+Below, the **Ownable** contract from OpenZeppelin.
+
+```
+/**
+ * @title Ownable
+ * @dev The Ownable contract has an owner address, and provides basic authorization control
+ * functions, this simplifies the implementation of "user permissions".
+ */
+contract Ownable {
+  address public owner;
+
+  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+  /**
+   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+   * account.
+   */
+  function Ownable() public {
+    owner = msg.sender;
+  }
+
+
+  /**
+   * @dev Throws if called by any account other than the owner.
+   */
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+
+
+  /**
+   * @dev Allows the current owner to transfer control of the contract to a newOwner.
+   * @param newOwner The address to transfer ownership to.
+   */
+  function transferOwnership(address newOwner) public onlyOwner {
+    require(newOwner != address(0));
+    OwnershipTransferred(owner, newOwner);
+    owner = newOwner;
+  }
+}
+```
+- `function Ownable()` is a constructor
+- `modifier` function let you modify other functions (often used to check conditions before execution).
+
