@@ -261,3 +261,7 @@ Except for `struct`. Using `struct` with smaller `uint` lets you save memory for
 Grouping the same data types inside a `struct` allows Solidity to minimize the required storage.
 Example: `uint c; uint32 a; uint32 b;` is cheaper than `uint32 a; uint c; uint32 b;`
 
+### Chapter 5: Time unit
+
+`now` returns the current time (`uint256` by default) in unix (elapsed seconds since 01/01/1970).
+Solidity also supports `seconds`, `minutes`, `hours`, `days` and `years`.

@@ -16,6 +16,7 @@ contract ZombieFactory is Ownable {
     // state variables are stored permanently in the blockchain.
     uint dnaDigits = 16;
     uint dnaModulus = 10 ** dnaDigits;
+    uint cooldownTime = 1days;
 
     struct Zombie {
         string name;
@@ -37,7 +38,7 @@ contract ZombieFactory is Ownable {
     // if it uses no data from the app, the function must be "pure"
     function _createZombie(string _name, uint _dna) internal {
         // array.push returns the new length of the array
-        uint id = zombies.push(Zombie(_name, _dna)) - 1; // add a zombie to the dynamic array
+        uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1; // add a zombie to the dynamic array
         // update the mapping to store the msg.sender in this id.
         zombieToOwner[id] = msg.sender;
         ownerZombieCount[msg.sender]++;
