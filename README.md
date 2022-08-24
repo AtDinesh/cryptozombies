@@ -375,3 +375,22 @@ You can use `transfer` to send funds to any Ethereum address.
 uint itemFee = 0.001 ether;
 msg.sender.transfer(msg.value - itemFee);
 ```
+
+### Chapter 4: Random number generation via keccak256
+
+The best source of randomness we have in Solidity is the keccak256 hash function.
+
+Example: 
+```
+// Generate a random number between 1 and 100:
+uint randNonce = 0;
+uint random = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 100;
+randNonce++;
+// take only the last 2 digits
+uint random2 = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 100;
+```
+**This method is vulnerable to attack by a dishonest node**
+
+Generating random numbers safely in Ethereum is a hard problem. Have a look at this [StackOverflow thread](https://ethereum.stackexchange.com/questions/191/how-can-i-securely-generate-a-random-number-in-my-smart-contract) for some ideas.
+One idea would be to use an oracle to access a random number function from outside of the Ethereum blockchain.
+
