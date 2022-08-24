@@ -276,3 +276,23 @@ function _doStuff(Zombie storage _zombie) internal {
 }
 ```
 
+### Chapter 8: `modifier` functions with args
+
+`modifier` functions can be passed some args.
+
+```
+// store the age of a user
+mapping (uint => uint) public age;
+
+// modifier requires the user to be older than some age
+modifier olderThan(uint _age, uint _userId) {
+  require (age[_userId] >= _age);
+  _;
+}
+
+function driveCar(uint _userId) public olderThan(16, _userId) {
+  // do stuff
+}
+```
+
+Note: The `modifier` calls the rest of the function with `_;`.
