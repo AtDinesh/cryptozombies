@@ -33,10 +33,12 @@ contract ZombieFeeding is ZombieFactory {
         return(_zombie.readyTime <= now);
     }
 
-    function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) public {
+    // Make it internal: we don't want the user to call the function with any Dna
+    function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) internal {
         // Make sure the user owns the zombie
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
+        require(_isReady(myZombie));
 
         // make sure _targetDna only has 16 figures
         _targetDna = _targetDna % dnaModulus;
@@ -47,6 +49,7 @@ contract ZombieFeeding is ZombieFactory {
         newDna = newDna - newDna % 100 + 99;
         }
         _createZombie("NoName", newDna);
+        _triggerCooldown(myZombie);
     }
 
     function feedOnKitty (uint _zombieId, uint _kittyId) public {
