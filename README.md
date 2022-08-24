@@ -323,3 +323,34 @@ function getArray() external pure returns(uint[]) {
 Why not just store the array in the storage ?
 --> Because writting costs money.
 If you ever need to delete one entry of the table, you would have to rewrite all following entries in the table and that would cost gaz.
+
+## Course 4: Zombie fight system
+
+### Chapter 1: Payable
+
+We have already seen the function visibility modifiers. (`private, internal, external, public`)
+There exist also state modifiers indicating how the function interacts with the BlockChain: 
+- `view` indicates that no data will be saved or modified
+- `pure` indicates `view` + no data is read on the BlockChain.
+`view` and `pure` functions do not cost gaz when called outside of the contract (they do cost if called by another function).
+
+We have also seen `modifier` and their use.
+
+`payable` is another modifier. A `payable` function is a special function that can receive Ethers.
+
+Example: 
+```
+contract OnlineStore {
+  function buySomething() external payable {
+    // check that 0.001 ether have been sent:
+    require(msg.value == 0.001 ether);
+    // then, transfer something to the sender:
+    transferThing(msg.sender);
+  }
+}
+```
+Someone will be calling this function via the web3.js
+```
+// supposing that `OnlineStore` points to the Ethereum contract :
+OnlineStore.buySomething({from: web3.eth.defaultAccount, value: web3.utils.toWei(0.001)})
+```
