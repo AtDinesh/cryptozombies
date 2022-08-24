@@ -354,3 +354,24 @@ Someone will be calling this function via the web3.js
 // supposing that `OnlineStore` points to the Ethereum contract :
 OnlineStore.buySomething({from: web3.eth.defaultAccount, value: web3.utils.toWei(0.001)})
 ```
+
+### Chapter 2: Withdraws
+
+You need to add a function to withdraw the Ether send on the contract's Ethereum account.
+Example: 
+```
+contract GetPaid is Ownable {
+  function withdraw() external onlyOwner {
+    address payable _owner = address(uint160(owner()));
+    _owner.transfer(address(this).balance);
+  }
+}
+```
+You cannot transfer Ether to an address unless that address is of type address payable. But the `_owner` variable is of type `uint160`, meaning that we must explicitly cast it to `address payable`.
+`address(this).balance` will return the total balance stored on the contract.
+You can use `transfer` to send funds to any Ethereum address. 
+
+```
+uint itemFee = 0.001 ether;
+msg.sender.transfer(msg.value - itemFee);
+```
