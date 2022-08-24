@@ -265,3 +265,14 @@ Example: `uint c; uint32 a; uint32 b;` is cheaper than `uint32 a; uint c; uint32
 
 `now` returns the current time (`uint256` by default) in unix (elapsed seconds since 01/01/1970).
 Solidity also supports `seconds`, `minutes`, `hours`, `days` and `years`.
+
+### Chapter 6: pass storage pointer
+
+You can pass the storage pointer of a struct as argument of a `private` or `internal` function.
+This way, we can pass a reference of a zombie instead of giving the ID and searching it.
+```
+function _doStuff(Zombie storage _zombie) internal {
+  // do stuff
+}
+```
+
