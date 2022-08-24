@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19
+pragma solidity >=0.5.0 <0.6.0;
 
 import "./zombiefactory.sol";
 
@@ -34,7 +34,7 @@ contract ZombieFeeding is ZombieFactory {
     }
 
     // Make it internal: we don't want the user to call the function with any Dna
-    function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) internal {
+    function feedAndMultiply(uint _zombieId, uint _targetDna, string memory _species) internal {
         // Make sure the user owns the zombie
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
@@ -45,7 +45,7 @@ contract ZombieFeeding is ZombieFactory {
         uint newDna = (myZombie.dna + _targetDna) / 2;
 
         // add bonus kitty genes
-        if (keccak256(_species) == keccak256("kitty")){
+        if (keccak256(abi.encodePacked(_species)) == keccak256(abi.encodePacked("kitty"))) {
         newDna = newDna - newDna % 100 + 99;
         }
         _createZombie("NoName", newDna);

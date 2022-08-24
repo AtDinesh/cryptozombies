@@ -36,25 +36,26 @@ contract ZombieFactory is Ownable {
     // function _createZombie(string _name, uint _dna) : public version with no return
     // if no state is modified, the function must be declared as "view"
     // if it uses no data from the app, the function must be "pure"
-    function _createZombie(string _name, uint _dna) internal {
+    function _createZombie(string memory _name, uint _dna) internal {
         // array.push returns the new length of the array
         uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1; // add a zombie to the dynamic array
         // update the mapping to store the msg.sender in this id.
         zombieToOwner[id] = msg.sender;
         ownerZombieCount[msg.sender]++;
-        NewZombie(id, _name, _dna);
+        emit NewZombie(id, _name, _dna);
     }
 
-    function _generateRandomDna(string _str) private view returns (uint) {
+    function _generateRandomDna(string memory _str) private view returns (uint) {
         // keccak256 is a hash function (like SHA3)
         // used here to generate random numbers although it is not secure to do so.
         uint rand = uint(keccak256(_str));
         return rand % dnaModulus;
     }
 
-    function createRandomZombie(string _name) public {
+    function createRandomZombie(string memory _name) public {
         require(ownerZombieCount[msg.sender] == 0); // make sure the function is called only once
         uint randDna = _generateRandomDna(_name);
+        randDna = randDna - randDna % 100;
         _createZombie(_name, randDna);
     }
 }
