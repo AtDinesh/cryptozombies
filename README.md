@@ -222,3 +222,29 @@ contract Ownable {
 - `function Ownable()` is a constructor
 - `modifier` function let you modify other functions (often used to check conditions before execution).
 
+### Chapter 3: onlyOwner modifier function
+
+`modifier` functions cannot be called directly. You need to add the name of the modifier at the end of the definition 
+of a function to change the way the function works.
+
+Example: 
+
+```
+modifier onlyOwner() {
+  require(msg.sender == owner);
+  _;
+}
+```
+And use it this way
+```
+contract MyContract is Ownable {
+  event LaughManiacally(string laughter);
+
+  // `onlyOwner` here added at the end of the definition
+  function likeABoss() external onlyOwner {
+    LaughManiacally("Muahahahaha");
+  }
+}
+```
+
+`modifier` function are often used to easily add a `require` before the execution.
