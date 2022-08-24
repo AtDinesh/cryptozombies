@@ -319,3 +319,7 @@ function getArray() external pure returns(uint[]) {
   return values;
 }
 ```
+
+Why not just store the array in the storage ?
+--> Because writting costs money.
+If you ever need to delete one entry of the table, you would have to rewrite all following entries in the table and that would cost gaz.
