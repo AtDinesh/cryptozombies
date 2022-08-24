@@ -248,3 +248,16 @@ contract MyContract is Ownable {
 ```
 
 `modifier` function are often used to easily add a `require` before the execution.
+
+### Chapter 4: Gaz
+
+User need to pay gaz at each function execution in the DApp. Gaz is bought with Ether.
+The gaz cost depends on the complexity of the function (computational ressources required to execute the function).
+
+Note: Things work slightly differently on sidechains.
+
+Solidity reserves 256 bits of storage whatever the size of the `uint`. Meaning that using `uint8` instead of `uint` does not make you save gaz.
+Except for `struct`. Using `struct` with smaller `uint` lets you save memory for the total storage by concatenation.
+Grouping the same data types inside a `struct` allows Solidity to minimize the required storage.
+Example: `uint c; uint32 a; uint32 b;` is cheaper than `uint32 a; uint c; uint32 b;`
+
