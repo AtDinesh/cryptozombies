@@ -261,6 +261,12 @@ Except for `struct`. Using `struct` with smaller `uint` lets you save memory for
 Grouping the same data types inside a `struct` allows Solidity to minimize the required storage.
 Example: `uint c; uint32 a; uint32 b;` is cheaper than `uint32 a; uint c; uint32 b;`
 
+`view` functions do no cost gaz when called externally because they do not change anything in the blockchain.
+However, when called internally by a non-`view` function, it will cost gaz. (the non-view function creates a transaction).
+
+Gaz optimization is a big topic in solidity and can lead to some coding logic that may not seem effective
+(such as rebuild an array in the memory when needed instead of saving in the storage).
+
 ### Chapter 5: Time unit
 
 `now` returns the current time (`uint256` by default) in unix (elapsed seconds since 01/01/1970).
@@ -296,3 +302,20 @@ function driveCar(uint _userId) public olderThan(16, _userId) {
 ```
 
 Note: The `modifier` calls the rest of the function with `_;`.
+
+### Chapter 11 : Declare array in the memory
+
+Syntax example: 
+
+```
+function getArray() external pure returns(uint[]) {
+  // create a new array of lenght 3 in the memory
+  uint[] memory values = new uint[](3);
+  // push values
+  values.push(1);
+  values.push(2);
+  values.push(3);
+  // return the array
+  return values;
+}
+```
