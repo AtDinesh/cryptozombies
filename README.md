@@ -453,3 +453,23 @@ function transferFrom(address _from, address _to, uint256 _tokenId) external pay
 ```
 
 The ERC721 spec includes a Transfer event. An event must be fired at Transfer.
+
+### Chapter 9: Preventing Overflows - SafeMath
+
+To prevent overflows and underflows, OpenZeppellin created the **SafeMath library**.
+A `library` is a special type of contract in Solidity. One of the things it is useful for is to attach functions to native data types.
+Libraries allow us to use the using keyword, which automatically tacks on all of the library's methods to another data type
+
+```
+using SafeMath for uint256;
+
+uint256 a = 5;
+uint256 b = a.add(3); // 5 + 3 = 8
+uint256 c = a.mul(2); // 5 * 2 = 10
+```
+
+Use: 
+- `mul` for `*`
+- `div` for `/`
+- `add` for `+`
+- `sub` for `-`
