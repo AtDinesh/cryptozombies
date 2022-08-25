@@ -621,3 +621,23 @@ Once the promise resolves (which means we got an answer back from the web3 provi
 }
 
 ```
+
+### Chapter 5: Metamask & Accounts
+
+You can see which Metamask account is currenly active on the injected `web3` variable:
+```
+var userAccount = web3.eth.accounts[0]
+```
+
+The app needs to monitor this variable to see if it has changed and update the UI accordingly.
+We can do that with a `setInterval` loop as follows:
+```
+var accountInterval = setInterval(function() {
+  // Check if account has changed every 100 milliseconds
+  if (web3.eth.accounts[0] !== userAccount) {
+    userAccount = web3.eth.accounts[0];
+    // Call some function to update the UI with the new account
+    updateInterface();
+  }
+}, 100);
+```
