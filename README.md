@@ -431,3 +431,25 @@ contract ERC721 {
 
 - Copy the interface and import it
 - Inherit from this ERC721 interface (Solidity supports multi-inheritance)
+
+
+### Chapter 5: ERC721 Transfer Logic
+
+The ERC721 spec has 2 different ways to transfer tokens:
+```
+function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+// The token's owner calls transferFrom with his address as the _from parameter
+```
+and
+```
+function approve(address _approved, uint256 _tokenId) external payable;
+
+function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+
+/* The token's owner first calls approve with the address he wants to transfer to, and the _tokenID .
+ * The contract stores who is approved to take a token `mapping (uint256 => address)`
+ * owner or approved address can call `transferFrom` to execute the transfer 
+ */
+```
+
+The ERC721 spec includes a Transfer event. An event must e fired at Transfer.
