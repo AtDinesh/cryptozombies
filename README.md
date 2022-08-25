@@ -487,3 +487,42 @@ Ethereum nodes only speak a language called JSON-RPC, which isn't very human-rea
 {"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":"0xb60e8dd61c5d32be8058bb8eb970870f07233155","to":"0xd46e8dd67c5d32be8058bb8eb970870f07244567","gas":"0x76c0","gasPrice":"0x9184e72a000","value":"0x9184e72a","data":"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"}],"id":1}
 ```
 Luckily, Web3.js hides these nasty queries below the surface, so you only need to interact with a convenient and easily readable JavaScript interface.
+
+### Chapter 2: Web3 Providers
+
+Setting a Web3 Provider in Web3.js tells our code which node we should be talking to handle our reads and writes.
+There's a third-party service that makes your life easier so you don't need to maintain your own Ethereum node in order to provide a DApp for your users — **Infura**.
+
+#### Infura
+Infura is a service that maintains a set of Ethereum nodes with a caching layer for fast reads, which you can access for free through their API.
+You can set up Web3 to use Infura as your web3 provider as follows:
+```
+var web3 = new Web3(new Web3.providers.WebsocketProvider("wss://mainnet.infura.io/ws"));
+```
+Since the DApp users will write to the blockchain, we'll need a way for these users to sign transactions with their private key.
+There are several services for that, the most popular is **Metamask**.
+
+#### Metamask
+Metamask uses Infura's servers under the hood as a web3 provider, just like we did above — but it also gives the user the option to choose their own web3 provider. So by using Metamask's web3 provider, you're giving the user a choice, and it's one less thing you have to worry about in your app.
+
+Metamask injects their web3 provider into the browser in the global JavaScript object `web3`. So your app can check to see if `web3` exists, and if it does use `web3.currentProvider` as its provider.
+
+```
+// You can use this boilerplate code in all the apps you create in order to require users to have Metamask to use your DApp.
+window.addEventListener('load', function() {
+
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider
+    web3js = new Web3(web3.currentProvider);
+  } else {
+    // Handle the case where the user doesn't have web3. Probably
+    // show them a message telling them to install Metamask in
+    // order to use our app.
+  }
+
+  // Now you can start your app & access web3js freely:
+  startApp()
+
+})
+```
