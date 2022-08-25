@@ -678,3 +678,19 @@ Thus we'll need logic in our app to handle the asynchronous nature of this code.
 - `receipt` will fire when the transaction is included into a block on Ethereum
 - `error` will fire if there's an issue that prevented the transaction from being included in a block, such as the user not sending enough gas. We'll want to inform the user in our UI that the transaction didn't go through so they can try again.
 
+### Chapter 8: Calling Payable Functions
+
+The way to send Ether along with a function is simple, with one caveat: we need to specify how much to send in `wei`, not Ether.
+A `wei` is the smallest sub-unit of Ether — there are 10^18 `wei` in one `ether`.
+
+Web3.js has a conversion utility :
+```
+// This will convert 1 ETH to Wei
+web3js.utils.toWei("1");
+```
+
+In our DApp, we set `levelUpFee = 0.001 ether`, so when we call our levelUp function, we can make the user send 0.001 Ether along with it using the following code:
+```
+cryptoZombies.methods.levelUp(zombieId)
+.send({ from: userAccount, value: web3js.utils.toWei("0.001", "ether") })
+```
