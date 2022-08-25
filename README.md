@@ -641,3 +641,29 @@ var accountInterval = setInterval(function() {
   }
 }, 100);
 ```
+
+### Chapter 6: Displaying our Zombie Army
+
+The easier method to actually display the data is to use `React` or `Vue.js`.
+It is out of the scope of this tutorial.
+Here we'll just see how you could parse and display the data you get back from your smart contract.
+We use JQuery here, which doesn't have a templating engine by default, so this is going to be ugly. But here's a simple example of how we could output this data for each zombie:
+
+```
+// Look up zombie details from our contract. Returns a `zombie` object
+getZombieDetails(id)
+.then(function(zombie) {
+  // Using ES6's "template literals" to inject variables into the HTML.
+  // Append each one to our #zombies div
+  $("#zombies").append(`<div class="zombie">
+    <ul>
+      <li>Name: ${zombie.name}</li>
+      <li>DNA: ${zombie.dna}</li>
+      <li>Level: ${zombie.level}</li>
+      <li>Wins: ${zombie.winCount}</li>
+      <li>Losses: ${zombie.lossCount}</li>
+      <li>Ready Time: ${zombie.readyTime}</li>
+    </ul>
+  </div>`);
+});
+```
