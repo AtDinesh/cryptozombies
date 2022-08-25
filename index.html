@@ -19,7 +19,19 @@
             var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
             ryptoZombies = new web3js.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
         }
-        
+
+        function getZombieDetails(id) {
+            return cryptoZombies.methods.zombies(id).call()
+        }
+
+        function zombieToOwner(id) {
+            return cryptoZombies.methods.zombieToOwner(id).call()
+        }
+
+        function getZombiesByOwner(owner) {
+            return cryptoZombies.methods.getZombiesByOwner(owner).call()
+        }
+
         window.addEventListener('load', function () {
 
             // Checking if Web3 has been injected by the browser (Mist/MetaMask)

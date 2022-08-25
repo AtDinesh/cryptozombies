@@ -537,7 +537,7 @@ You'll need to copy this address after deploying in order to talk to your smart 
 
 #### Contract ABI
 `ABI` stands for **Application Binary Interface**. Basically it's a representation of your contracts' methods in JSON format that tells Web3.js how to format function calls in a way your contract will understand.
-The ABI is provided at compilation time by the Solidity compiler.
+The `ABI` is provided at compilation time by the Solidity compiler.
 
 *Since we haven't covered deployment yet, for this lesson we've compiled the ABI for you and put it in a file named cryptozombies_abi.js, stored in variable called cryptoZombiesABI. If we include cryptozombies_abi.js in our project, we'll be able to access the CryptoZombies ABI using that variable.*
 
@@ -546,4 +546,78 @@ Once you have your contract's address and ABI, you can instantiate it in Web3 as
 ```
 // Instantiate myContract
 var myContract = new web3js.eth.Contract(myABI, myContractAddress);
+```
+
+### Chapter 4: Calling Contract Functions
+
+Web3.js has two methods we will use to call functions on our contract: `call` and `send`.
+
+#### Call
+
+`call` is used for `view` and `pure` functions. It only runs on the local node, and won't create a transaction on the blockchain.
+Using Web3.js, you would call a function named myMethod with the parameter 123 as follows:
+```
+myContract.methods.myMethod(123).call()
+```
+
+#### Send
+
+`send` will create a transaction and change data on the blockchain. You'll need to use `send` for any functions that aren't `view` or `pure`.
+Sending a transaction requires the user to pay gas. Meatmask pop-up etc are all handled automatically when `send` is called.
+```
+myContract.methods.myMethod(123).send()
+```
+#### Getting Zombie Data
+
+In Solidity, when you declare a variable `public`, it automatically creates a public "getter" function with the same name. 
+
+```
+function getZombieDetails(id) {
+  return cryptoZombies.methods.zombies(id).call()
+  // remember in Solidity, the variable is declared as: Zombie[] public zombies;
+}
+
+// Call the function and do something with the result:
+getZombieDetails(15)
+.then(function(result) {
+  console.log("Zombie 15: " + JSON.stringify(result));
+});
+```
+
+The `call` is asynchronous. Web3 returns a `promise`.
+_________________________________________________________________________________________________________________
+A JavaScript `Promise` object contains both the `producing code` and calls to the `consuming code`.
+A **producing code** is code that can take some time. A **Consuming code** is code that must wait for the result.
+A JavaScript `Promise` object can be:
+- Pending
+- Fulfilled
+- Rejected
+
+The `Promise` object supports two properties: `state` and `result`.
+While a Promise object is *pending* (working), the result is undefined.
+When a Promise object is *fulfilled*, the result is a value.
+When a Promise object is *rejected*, the result is an error object.
+
+You cannot access the `Promise` properties `state` and `result`. You must use a `Promise` method to handle promises.
+`Promise.then()` takes two optiinal arguments, a callback for success and another for failure.
+```
+myPromise.then(
+  function(value) { /* code if successful */ },
+  function(error) { /* code if some error */ }
+);
+```
+________________________________________________________________________________________________________________
+Once the promise resolves (which means we got an answer back from the web3 provider), our example code continues with the `then` statement, which logs `result` to the console.
+`result` will be a javascript object that looks like this:
+
+```
+{
+  "name": "H4XF13LD MORRIS'S COOLER OLDER BROTHER",
+  "dna": "1337133713371337",
+  "level": "9999",
+  "readyTime": "1522498671",
+  "winCount": "999999999",
+  "lossCount": "0" // Obviously.
+}
+
 ```
