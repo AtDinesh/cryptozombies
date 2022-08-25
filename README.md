@@ -394,3 +394,40 @@ uint random2 = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 1
 Generating random numbers safely in Ethereum is a hard problem. Have a look at this [StackOverflow thread](https://ethereum.stackexchange.com/questions/191/how-can-i-securely-generate-a-random-number-in-my-smart-contract) for some ideas.
 One idea would be to use an oracle to access a random number function from outside of the Ethereum blockchain.
 
+## Course 5: ERC721 & Crypto-Collectibles
+
+### Chapter 1: Tokens on Ethereum
+
+#### ERC20 token standard
+
+A token on Ethereum is just a smart contract that that keeps track of who owns how much of that token, and some functions so those users can transfer their tokens to other addresses.
+It implements a standard set of functions that all other token contracts share such as
+`transferFrom(address _from, address _to, uint256 _tokenId)` and `balanceOf(address _owner)`.
+
+The smart contract has a mapping `mapping(address => uint256) balances` that keeps track of how much balance each address has.
+
+Thus, all ERC20 token share the same set of functions.
+If you build an application that is capable of interacting with one ERC20 token, it's also capable of interacting with any ERC20 token. 
+You would just need to plug in the new token contract address.
+
+#### Other token standard: ERC721
+
+ERC721 tokens are not interchangeable since each one is assumed to be unique, and are not divisible. You can only trade them in whole units, and each one has a unique ID. 
+Here is the ERC721 standard. These is the list of methods we'll need to implement.
+
+```
+contract ERC721 {
+  event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+  event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+
+  function balanceOf(address _owner) external view returns (uint256);
+  function ownerOf(uint256 _tokenId) external view returns (address);
+  function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+  function approve(address _approved, uint256 _tokenId) external payable;
+}
+```
+
+#### Implementing a token contract
+
+- Copy the interface and import it
+- Inherit from this ERC721 interface (Solidity supports multi-inheritance)
