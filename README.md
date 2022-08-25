@@ -475,3 +475,15 @@ Use:
 - `sub` for `-`
 
 Note: SafeMath default methods are for `uint256`. We need to implement specific SafeMath libraries for other types.
+
+## Course 6: App Front-ends & Web3.js
+
+### Chapter 1: Intro to Web3.js
+
+**Web3.js** is a JavaScript library from the Ethereum Foundation.
+Ethereum nodes only speak a language called JSON-RPC, which isn't very human-readable. A query to tell the node you want to call a function on a contract looks something like this:
+
+```
+{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":"0xb60e8dd61c5d32be8058bb8eb970870f07233155","to":"0xd46e8dd67c5d32be8058bb8eb970870f07244567","gas":"0x76c0","gasPrice":"0x9184e72a000","value":"0x9184e72a","data":"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"}],"id":1}
+```
+Luckily, Web3.js hides these nasty queries below the surface, so you only need to interact with a convenient and easily readable JavaScript interface.
