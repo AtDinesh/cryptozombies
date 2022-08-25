@@ -23,6 +23,8 @@ contract ZombieFactory is Ownable {
         uint dna;
         uint32 level;
         uint32 readyTime;
+        uint16 winCount;
+        uint16 lossCount;
     }
 
     // this is a dynamic array to store an army of zombies.
@@ -38,7 +40,7 @@ contract ZombieFactory is Ownable {
     // if it uses no data from the app, the function must be "pure"
     function _createZombie(string memory _name, uint _dna) internal {
         // array.push returns the new length of the array
-        uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1; // add a zombie to the dynamic array
+        uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime), 0, 0)) - 1; // add a zombie to the dynamic array
         // update the mapping to store the msg.sender in this id.
         zombieToOwner[id] = msg.sender;
         ownerZombieCount[msg.sender]++;
