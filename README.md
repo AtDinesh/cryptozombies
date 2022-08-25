@@ -452,4 +452,4 @@ function transferFrom(address _from, address _to, uint256 _tokenId) external pay
  */
 ```
 
-The ERC721 spec includes a Transfer event. An event must e fired at Transfer.
+The ERC721 spec includes a Transfer event. An event must be fired at Transfer.
