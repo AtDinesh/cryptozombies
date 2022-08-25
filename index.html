@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <div id="txStatus"></div> <!-- use this to update the user with messages with the status of our transactions.-->
     <div id="zombies"></div>
     <script>
 
@@ -52,7 +53,6 @@
                         </div>`);
                     });
             }
-        }
 
             function getZombieDetails(id) {
                 return cryptoZombies.methods.zombies(id).call()

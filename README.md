@@ -667,3 +667,14 @@ getZombieDetails(id)
   </div>`);
 });
 ```
+
+### Chapter 7: Sending Transactions
+
+`send`ing a transaction requires a from address of who's calling the function (which becomes msg.sender in your Solidity code).
+There will be a significant delay from when the user sends a transaction and when that transaction actually takes effect on the blockchain.
+Thus we'll need logic in our app to handle the asynchronous nature of this code.
+
+`send` function sends a transaction to our Web3 provider, and chains some event listeners:
+- `receipt` will fire when the transaction is included into a block on Ethereum
+- `error` will fire if there's an issue that prevented the transaction from being included in a block, such as the user not sending enough gas. We'll want to inform the user in our UI that the transaction didn't go through so they can try again.
+
