@@ -109,6 +109,11 @@
                 });
         }
 
+        // TODO: Implementing functions for attack, changeName, changeDna, and the ERC721 functions transfer, ownerOf, balanceOf, etc. The implementation of these functions would be identical to all the other send transactions we covered.
+        // TODO:    Implementing an "admin page" where you can execute setKittyContractAddress, setLevelUpFee, and withdraw. 
+        //          Again, there's no special logic on the front-end here — these implementations would be identical to the functions we've already covered. 
+        //          You would just have to make sure you called them from the same Ethereum address that deployed the contract, since they have the onlyOwner modifier.
+
         function getZombieDetails(id) {
             return cryptoZombies.methods.zombies(id).call()
         }
