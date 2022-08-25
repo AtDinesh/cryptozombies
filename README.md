@@ -473,3 +473,5 @@ Use:
 - `div` for `/`
 - `add` for `+`
 - `sub` for `-`
+
+Note: SafeMath default methods are for `uint256`. We need to implement specific SafeMath libraries for other types.
