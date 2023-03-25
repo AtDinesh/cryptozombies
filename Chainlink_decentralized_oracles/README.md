@@ -45,3 +45,32 @@ Some links:
 [Truffle Starter Kit](https://github.com/smartcontractkit/truffle-starter-kit)
 [Hardhat Starter Kit](https://github.com/smartcontractkit/hardhat-starter-kit)
 [Brownie Starter Kit - Chainlink Mix](https://github.com/smartcontractkit/chainlink-mix)
+
+## Chapter 7: Chainlink VRF Introduction
+
+### The pseudo-random DNA
+`keccak256` based randomness in only pseudo-random, which is problematic. **Everything that is part of the on-chain mechanism is deterministic by design**, including the hashing function.
+
+Naive fix: use globally available variables (`msg.sender`, `block.difficulty`, `block.timestamp`, ...):
+`uint(keccak256(abi.encodePacked(msg.sender, block.difficulty, block.timestamp)));`
+But even these variables are somehow predictable...
+
+Another solution: use the secure randomness of the [Chainlink Verifiable Randomness Function - Chainlink VRF](https://docs.chain.link/docs/get-a-random-number/).
+
+### Chainlink VRF
+#### Basic Request Model
+[Basic request model](https://docs.chain.link/docs/architecture-request-model/).
+
+
+1. Callee contract makes a request in a transaction
+    1. Callee contract or oracle contract emits an event
+2. Chainlink node (Off-chain) is listening for the event, where the details of the request are logged in the event
+3. In a second transaction created by the Chainlink node, it returns the data on-chain by calling a function described by the callee contract
+4. In the case of the Chainlink VRF, a randomness proof is done to ensure the number is truly random
+
+working with oracles require to pay gas in LINK token. Whenever we make a request following the basic request model, our contracts must be funded with a set amount of LINK, as defined by the specific oracle service that we are using (each service has different oracle gas fees).
+
+### In practice
+- pull the Chainlink VRF contract code froù NPM / Github
+- Inherit the functionality of the VRFConsumerbase contract code into outs to emit event
+- Define chat functions that Chainlink node is going to callback / respond to.
