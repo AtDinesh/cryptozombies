@@ -114,6 +114,8 @@
         //          Again, there's no special logic on the front-end here — these implementations would be identical to the functions we've already covered. 
         //          You would just have to make sure you called them from the same Ethereum address that deployed the contract, since they have the onlyOwner modifier.
 
+        // TODO: We'd probably want to add an Attack event to our smart contract with the user's address as an indexed property, as discussed in the last chapter. This would allow us to build real-time notifications.
+
         function getZombieDetails(id) {
             return cryptoZombies.methods.zombies(id).call()
         }
