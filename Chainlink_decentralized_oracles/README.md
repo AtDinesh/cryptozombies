@@ -74,3 +74,26 @@ working with oracles require to pay gas in LINK token. Whenever we make a reques
 - pull the Chainlink VRF contract code froù NPM / Github
 - Inherit the functionality of the VRFConsumerbase contract code into outs to emit event
 - Define chat functions that Chainlink node is going to callback / respond to.
+
+## Chapter 8: Constructor in a constructor
+
+`VRFConsumerbase` contract includes all the code we need to send a request to a Chainlink oracle.
+
+Few variables are required to interact with a Chainlink node:
+- The address of the Chainlink token contract. This is needed so our contract can tell if we have enough LINK tokens to pay for the gas.
+- The VRF coordinator contract address. This is needed to verify that the number we get is actually random.
+- The Chainlink node keyhash. This is used identify which Chainlink node we want to work with.
+- The Chainlink node fee. This represents the fee (gas) the Chainlink will charge us, expressed in LINK tokens.
+
+More info: [Chainlink VRF Contract addresses documentation page](https://docs.chain.link/docs/vrf-contracts/).
+
+How to implement a constructor of an inherited contract? Answer: constructor in a constructor:
+
+```
+import "./Y.sol";
+contract X is Y {
+    constructor() Y() public{
+    }
+}
+```
+
