@@ -97,3 +97,23 @@ contract X is Y {
 }
 ```
 
+## Chapter 9: Define our Chainlink VRF variables
+- define keyHash and fee in the constructor
+- craete a global variable that will store the most recent return of a Chainlink VRF.
+
+## Chapter 10: The requestRandomness and fulfillRandomness functions
+
+As the Chainlink VRF follows the basic request model, we need:
+1. function to request the random number
+2. A function for the Chainlink node to return the random number to.
+
+1. requestRandomness
+   1. checks to see that our contract has LINK tokens to pay a Chainlink node
+   2. sends some LINK tokens to the Chainlink node
+   3. Emits an event that the Chainlink node is looking for
+   4.     Assigns a requestId to our request for a random number on-chain
+2. fulfillRandomness
+   1. calls a function on the VRF Coordinator and includes a random number
+   2. checks to see if the number is random
+   3. returns the random number the Chainlink node created, along with the original requestID from our request
+
