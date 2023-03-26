@@ -43,3 +43,14 @@ Deploying to Ethereum requires a **migration**.
 ### Creating a New Migration
 `truffle init` created a file `./contracts/1_initial_migration.js` that exports a function that accepts a `deployer`.
 The deployer acts as an interface between the developer and Truffle's deployment engine.
+
+## Chapter 5: Configuration Files
+Before deploying, we need to edit the configuration file to tell Truffle the networks to deploy to.
+`truffle.js` configuration file is just an empty shell that needs to be updated for deploying.
+
+Edit the configuration file to use `HDWalletProvider`:
+`const HDWalletProvider = require("truffle-hdwallet-provider");`
+Create a new variable to store the mnemonic:
+const mnemonic = "onions carrots beans powder curry fire light sky";
+
+Warning: do not store secrets like a mnemonic or a private key in a configuration file (it is pushed in the repo..)
