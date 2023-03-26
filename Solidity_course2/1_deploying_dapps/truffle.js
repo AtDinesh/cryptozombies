@@ -1,5 +1,14 @@
+const { readFileSync } = require('fs')
+const path = require('path')
+const { join } = require('path')
+
 // Initialize HDWalletProvider
 const HDWalletProvider = require("truffle-hdwallet-provider");
+
+function getLoomProviderWithPrivateKey (privateKeyPath, chainId, writeUrl, readUrl) {
+  const privateKey = readFileSync(privateKeyPath, 'utf-8');
+  return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+}
 
 // 1. Initialize LoomTruffleProvider
 const LoomTruffleProvider = require('loom-truffle-provider');
@@ -39,6 +48,17 @@ module.exports = {
         return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
         },
       network_id: '9545242630824'
+    },
+    basechain: {
+      provider: function() {
+        const chainId = 'default';
+        const writeUrl = 'http://basechain.dappchains.com/rpc';
+        const readUrl = 'http://basechain.dappchains.com/query';
+        const privateKeyPath = path.join(__dirname, 'mainnet_private_key');
+        const loomTruffleProvider = getLoomProviderWithPrivateKey(privateKeyPath, chainId, writeUrl, readUrl);
+        return loomTruffleProvider;
+        },
+      network_id: '*'
     }
 
   }

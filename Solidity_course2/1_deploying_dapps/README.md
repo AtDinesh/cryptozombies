@@ -81,3 +81,35 @@ $cat private_key
 2. Update truffle.js (initialize `loom-truffle-provider`).
 3. Let Truffle know how to deploy on Loom testnet (add new network in truffle.js)
 4. deploy to Loom testnet: `truffle migrate --network loom_testnet`
+
+## Chapter 10: Derploy to Basechain
+Before deploying to mainnet (Basechain):
+1. Create a new private key
+```
+./loom genkey -a mainnet_public_key -k mainnet_private_key
+local address: 0x07419790A773Cc6a2840f1c092240922B61eC778
+local address base64: B0GXkKdzzGooQPHAkiQJIrYex3g=
+```
+
+Add `mainnet_privatye_key` file to .gitignore to avoid pushing it.
+
+2. Securely pass the private key to Truffle.
+   - edit `truffle.js` so that Truffle reads the private key from the file
+
+```
+// some imports
+const { readFileSync } = require('fs')
+const path = require('path')
+const { join } = require('path')
+
+function getLoomProviderWithPrivateKey (privateKeyPath, chainId, writeUrl, readUrl) {
+  const privateKey = readFileSync(privateKeyPath, 'utf-8');
+  return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+}
+```
+
+3. Tell Truffle how to deploy to Basechain by adding a new object to the `truffle.js` config file.
+4. Whitelist your deployment keys
+Documentation is [here](https://loomx.io/developers/en/deploy-loom-mainnet.html)
+5. wrap everything up by deploying the smart contract
+
