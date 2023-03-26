@@ -158,3 +158,28 @@ web3.currentProvider.send({
 ```
 This can be useful. For example in our case, zombies are allowed to attack only once a day, making unit tests to fail.
 Note: Obviously, time traveling is not available on the main net or on any of the available test chains that are secured by miners. 
+
+## Chapter 13: More expressive assertions with Chai
+The built-in `assert` module is not bad, but has a major drawback- the code doesn't read well. Fortunately, there are several better assertion modules out there, and `Chai` is one of the best.
+
+### Chai assertion library
+Here are the [guides](https://www.chaijs.com/guide/) of Chai. `npm install chai -g`.
+
+Here are 3 kinds of assertions:
+1. `expect`: lets you chain natural language assertions as follows
+  ```
+  let lessonTitle = "Testing Smart Contracts with Truffle";
+  expect(lessonTitle).to.be.a("string");
+  ```
+2. `should`: allows for similar assertions as expect interface, but the chain starts with a should property
+  ```
+  let lessonTitle = "Testing Smart Contracts with Truffle";
+  lessonTitle.should.be.a("string");
+  ```
+3. `assert`: provides a notation similar to that packaged with node.js and includes several additional tests and it's browser compatible
+  ```
+  let lessonTitle = "Testing Smart Contracts with Truffle";
+  assert.typeOf(lessonTitle, "string");
+  ```
+
+Those kinds of assertion must first be imported in the project. e.g. `var expect = require('chai').expect;`.
