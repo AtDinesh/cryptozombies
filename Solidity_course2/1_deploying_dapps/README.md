@@ -54,3 +54,30 @@ Create a new variable to store the mnemonic:
 const mnemonic = "onions carrots beans powder curry fire light sky";
 
 Warning: do not store secrets like a mnemonic or a private key in a configuration file (it is pushed in the repo..)
+
+## Chapter 6: Deploying Our Smart Contract
+A migration is a JavaScript file that tells Truffle how to modify the state of our smart contracts.
+The first migration will just deploy the smart contract. Some other migrations deploy a new version of the code to add features or fix bugs.
+A separate migration file must be created for each contract. Migrations are always executed in order- 1,2,3, etc.
+
+To deploy: `truffle migrate --network rinkeby`
+
+## Chapter 7: Use Truffle with Loom!
+On Loom, your users can have much speedier and gas-free transactions, making it a much better fit for games and other non-financial applications.
+
+**loom-truffle-provider**: The `provider` lets Truffle deploy to Loom just like it deploys to Rinkeby or Ethereum main net. It works like a bridge that makes Web3 calls compatible with Loom. 
+`npm install loom-truffle-provider`
+
+## Chapter 8: Deploy to Loom Testnet
+1. Create our own Loom private key. The easiest way to do it is by downloading and installing Loom according to this [tutorial](https://loomx.io/developers/en/basic-install-all.html).
+```
+$./loom genkey -a public_key -k private_key
+local address: 0x42F401139048AB106c9e25DCae0Cf4b1Df985c39
+local address base64: QvQBE5BIqxBsniXcrgz0sd+YXDk=
+$cat private_key
+/i0Qi8e/E+kVEIJLRPV5HJgn0sQBVi88EQw/Mq4ePFD1JGV1Nm14dA446BsPe3ajte3t/tpj7HaHDL84+Ce4Dg==
+```
+
+2. Update truffle.js (initialize `loom-truffle-provider`).
+3. Let Truffle know how to deploy on Loom testnet (add new network in truffle.js)
+4. deploy to Loom testnet: `truffle migrate --network loom_testnet`
