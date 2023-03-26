@@ -117,3 +117,4 @@ As the Chainlink VRF follows the basic request model, we need:
    2. checks to see if the number is random
    3. returns the random number the Chainlink node created, along with the original requestID from our request
 
+More about Chaiçnlink and the random numbers in the [Random Number Tutorial](https://docs.chain.link/docs/intermediates-tutorial/)
