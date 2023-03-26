@@ -129,3 +129,32 @@ context("with the two-step transfer scenario", async () => {
 *note*: 
 If we place an `x` in front of the `context()` functions as follows: `xcontext()`, Truffle will skip those tests.
 `x` can be placed in front of an `it()` function as well. 
+
+## Chapter 12: Manipulate time
+
+Ganache provides a way to move forward in time through two helper functions:
+- **evm_increaseTime**: increases the time for the next block
+- **evm_mine**: mines a new block.
+
+- Every time a new block gets mined, the miner adds a timestamp to it. Let's say the transactions that created our zombies got mined in block 5.
+- Next, we call `evm_increaseTime` but, since the blockchain is immutable, there is no way of modifying an existing block. So, when the contract checks the time, it will not be increased.
+- If we run `evm_mine`, block number 6 gets mined (and timestamped) which means that, when we put the zombies to fight, the smart contract will "see" that a day has passed.
+
+example:
+```
+await web3.currentProvider.sendAsync({
+  jsonrpc: "2.0",
+  method: "evm_increaseTime",
+  params: [86400],  // there are 86400 seconds in a day
+  id: new Date().getTime()
+}, () => { });
+
+web3.currentProvider.send({
+    jsonrpc: '2.0',
+    method: 'evm_mine',
+    params: [],
+    id: new Date().getTime()
+});
+```
+This can be useful. For example in our case, zombies are allowed to attack only once a day, making unit tests to fail.
+Note: Obviously, time traveling is not available on the main net or on any of the available test chains that are secured by miners. 
