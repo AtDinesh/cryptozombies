@@ -183,3 +183,34 @@ Here are 3 kinds of assertions:
   ```
 
 Those kinds of assertion must first be imported in the project. e.g. `var expect = require('chai').expect;`.
+
+## Chapter 14: Testing against Loom
+
+To test against Loom, we first need to configure truffle so that it knows how to deploy to Loom testnet:
+```
+loom_testnet: {
+      provider: function() {
+        const privateKey = 'YOUR_PRIVATE_KEY';
+        const chainId = 'extdev-plasma-us1';
+        const writeUrl = 'wss://extdev-basechain-us1.dappchains.com/websocket';
+        const readUrl = 'wss://extdev-basechain-us1.dappchains.com/queryws';
+        return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+      },
+      network_id: 'extdev'
+    }
+```
+
+Warning: remember never to reveal the private key. it should be in a separate file that is not pushed in the repo.
+
+**The accounts array**
+In order to make Truffle talk to Loom, the default `HDWalletProvider` has been replaced with the [loom-truffle-provider](https://github.com/loomnetwork/loom-truffle-provider).
+We have to tell our provider to fill in the accounts array so we can test our game. 
+
+Remember: Time travelling is only available when testing against Ganache, so some test need to be disabled when deploying on truffle.
+There is another way to skip a test than putting an `x`:
+```
+it.skip("zombies should be able to attack another zombie", async () => {
+    //We're skipping the body of the function for brevity
+    })
+```
+

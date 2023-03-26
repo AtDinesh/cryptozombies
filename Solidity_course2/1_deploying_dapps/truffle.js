@@ -4,6 +4,7 @@ const { join } = require('path')
 
 // Initialize HDWalletProvider
 const HDWalletProvider = require("truffle-hdwallet-provider");
+const LoomTruffleProvider = require('loom-truffle-provider');
 
 function getLoomProviderWithPrivateKey (privateKeyPath, chainId, writeUrl, readUrl) {
   const privateKey = readFileSync(privateKeyPath, 'utf-8');
@@ -19,6 +20,13 @@ const mnemonic = "onions carrots beans powder curry fire light sky";
 module.exports = {
   // Object with configuration for each network
   networks: {
+    //development
+    development: {
+      host: "127.0.0.1",
+      port: 7545,
+      network_id: "*",
+      gas: 9500000
+    },
     // Configuration for mainnet
     mainnet: {
       provider: function () {
@@ -45,7 +53,11 @@ module.exports = {
         const chainId = 'extdev-plasma-us1';
         const writeUrl = 'http://extdev-plasma-us1.dappchains.com:80/rpc';
         const readUrl = 'http://extdev-plasma-us1.dappchains.com:80/query';
-        return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+        // create the loom truffle provider (wallet)
+        const loomTruffleProvider = new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+        // create some accounts in the provider
+        loomTruffleProvider.createExtraAccountsFromMnemonic(mnemonic, 10);
+        return loomTruffleProvider;
         },
       network_id: '9545242630824'
     },
