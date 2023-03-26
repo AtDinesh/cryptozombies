@@ -30,3 +30,16 @@ We ues **infura** to deploy code to Ethereum.
 Infura does not manage private keys: it can't sign transactions. For this we use `truffle-hdwallet-provider`.
 `npm install truffle-hdwallet-provider`
 
+## Chapter 3: Compiling the Source code
+### CryptoZombies - The Game
+
+Executing `truffle compile` will create the build artifacts and place them in `./build/contracts`.
+
+## Chapter 4: Migrations
+You can test smart contracts locally using **Ganache**, which sets up a local Ethereum network.
+Deploying to Ethereum requires a **migration**.
+`truffle init` created a special contract called Migrations.sol that keeps track of the changes you're making to your code. The way it works is that the history of changes is saved onchain.
+
+### Creating a New Migration
+`truffle init` created a file `./contracts/1_initial_migration.js` that exports a function that accepts a `deployer`.
+The deployer acts as an interface between the developer and Truffle's deployment engine.
