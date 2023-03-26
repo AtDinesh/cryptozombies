@@ -24,18 +24,39 @@ contract("CryptoZombies", (accounts) => {
       await utils.shouldThrow(contractInstance.createRandomZombie(zombieNames[1], {from: alice}));
     })
 
-    xcontext("with the single-step transfer scenario", async () => {
+    context("with the single-step transfer scenario", async () => {
       it("should transfer a zombie", async () => {
-        // TODO: Test the single-step transfer scenario.
+        // Test the single-step transfer scenario.
+        const result = await contractInstance.createRandomZombie(zombieNames[0], {from: alice});
+        const zombieId = result.logs[0].args.zombieId.toNumber(); // retrieve zombieId
+        await contractInstance.transferFrom(alice, bob, zombieId, {from: alice}); // Alice calls transferFrom
+        const newOwner = await contractInstance.ownerOf(zombieId);
+        assert.equal(newOwner, bob);
       })
     })
   
-    xcontext("with the two-step transfer scenario", async () => {
+    context("with the two-step transfer scenario", async () => {
       it("should approve and then transfer a zombie when the approved address calls transferFrom", async () => {
-        // TODO: Test the two-step scenario.  The approved address calls transferFrom
+        // Test the two-step scenario.  The approved address calls transferFrom
+        const result = await contractInstance.createRandomZombie(zombieNames[0], {from: alice});
+        const zombieId = result.logs[0].args.zombieId.toNumber();
+        // alice approves bob to transfer the token
+        await contractInstance.approve(bob, zombieId, {from: alice});
+        // bob calls transferFrom
+        await contractInstance.transferFrom(alice, bob, zombieId, {from: bob});
+        const newOwner = await contractInstance.ownerOf(zombieId);
+        assert.equal(newOwner,bob);
       })
       it("should approve and then transfer a zombie when the owner calls transferFrom", async () => {
-          // TODO: Test the two-step scenario.  The owner calls transferFrom
+          // Test the two-step scenario.  The owner calls transferFrom
+        const result = await contractInstance.createRandomZombie(zombieNames[0], {from: alice});
+        const zombieId = result.logs[0].args.zombieId.toNumber();
+        // alice approves bob to transfer the token
+        await contractInstance.approve(bob, zombieId, {from: alice});
+        // bob calls transferFrom
+        await contractInstance.transferFrom(alice, bob, zombieId, {from: alice});
+        const newOwner = await contractInstance.ownerOf(zombieId);
+        assert.equal(newOwner,bob);
       })
     })
 })
