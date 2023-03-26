@@ -78,3 +78,26 @@ Note that logs can also be used as a much cheaper option to store data. The down
 
 **Assert**
 There are built-in assertion modules coming with functions such as `equal()` or `deepEqual()`.
+
+## Chapter 6, 7: Hooks
+
+One of Mocha's (and Truffle's) features is the ability to have some snippets of code called hooks run before or after a test. To run something before a test gets executed, the code should be put inside a function named `beforeEach()`.
+```
+beforeEach(async () => {
+  // let's put here the code that creates a new contract instance
+});
+```
+
+When making sure that some behavior are not possible and that you encounter an error, use `try/catch` blocks.
+example: 
+```
+try {
+    //try to create the second zombie
+    await contractInstance.createRandomZombie(zombieNames[1], {from: alice});
+    assert(true);
+  }
+  catch (err) {
+    return;
+  }
+assert(false, "The contract did not throw.");
+```
