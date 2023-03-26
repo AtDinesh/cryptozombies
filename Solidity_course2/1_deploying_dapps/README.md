@@ -25,7 +25,8 @@ truffle.js
 - **migrations**: a migration is a JavaScript file that tells Truffle how to deploy a smart contract.
 - **truffle.js** and **truffle-config.js**: config files used to store the network settings for deployment. Truffle needs two config files because on Windows having both truffle.js and truffle.exe in the same folder might generate conflicts. Long story short - if you are running Windows, it is advised to delete truffle.js and use truffle-config.js as the default config file. 
 
-### truffle-hdwammet-provider
+### truffle-hdwallet-provider
 We ues **infura** to deploy code to Ethereum. 
 Infura does not manage private keys: it can't sign transactions. For this we use `truffle-hdwallet-provider`.
 `npm install truffle-hdwallet-provider`
+
