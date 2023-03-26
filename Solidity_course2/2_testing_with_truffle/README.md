@@ -101,3 +101,31 @@ try {
   }
 assert(false, "The contract did not throw.");
 ```
+
+## Chapter 8: Zombie Transfers (2 ways with ERC721) - groups of tests
+
+ERC721 specification has 2 different ways to transfer tokens:
+- Alice calls `transferFrom` with her address as the `_from` parameter, Bob’s address as the `_to` parameter, and the `zombieId` she wants to transfer.
+- Alice first calls `approve` Bob’s address and the `zombieId`. The contract then stores that Bob is approved to take the zombie. Next, when Alice or Bob calls `transferFrom`, the contract checks if that `msg.sender` is equal to Alice’s or Bob’s address. If so, it transfers the zombie to Bob.
+
+To group tests, Truffle provides a function called `context`.
+```
+context("with the single-step transfer scenario", async () => {
+    it("should transfer a zombie", async () => {
+      // TODO: Test the single-step transfer scenario.
+    })
+})
+
+context("with the two-step transfer scenario", async () => {
+    it("should approve and then transfer a zombie when the approved address calls transferFrom", async () => {
+      // TODO: Test the two-step scenario.  The approved address calls transferFrom
+    })
+    it("should approve and then transfer a zombie when the owner calls transferFrom", async () => {
+        // TODO: Test the two-step scenario.  The owner calls transferFrom
+     })
+})
+```
+
+*note*: 
+If we place an `x` in front of the `context()` functions as follows: `xcontext()`, Truffle will skip those tests.
+`x` can be placed in front of an `it()` function as well. 
