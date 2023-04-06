@@ -8,8 +8,11 @@ contract CallerContract is Ownable {
     EthPriceOracleInterface private oracleInstance;
     // store the address of the oracle
     address private oracleAddress;
-    // declate a new type of event
+    // keep track of eth price requests
+    mapping(uint256=>bool) myRequests;
+    // declare a new type of event
     event newOracleAddressEvent(address oracleAddress);
+    event ReceivedNewRequestIdEvent(uint256 id);
 
     function setOracleInstanceAddress(address _oracleInstanceAddress) public onlyOwner {
         oracleAddress = _oracleInstanceAddress;
@@ -17,5 +20,11 @@ contract CallerContract is Ownable {
         oracleInstance = EthPriceOracleInterface(oracleAddress);
         // Fire `newOracleAddressEvent` to notify front-end.
         emit newOracleAddressEvent(oracleAddress);
+    }
+
+    function updateEthPrice() public {
+      uint256 id = oracleInstance.getLatestEthPrice();
+      myRequests[id] = true;
+      emit ReceivedNewRequestIdEvent(id);
     }
 }

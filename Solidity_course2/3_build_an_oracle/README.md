@@ -52,3 +52,15 @@ Fix: use the **onlyOwner Function Modifier** so that only the owner can execute 
 - Import the content of the OpenZeppelin's Ownable smart contract.
 - Make the contract inherit from Ownable.
 - Change the definition of the setOracleInstanceAddress function so that it uses the onlyOwner modifier.
+
+## Chapter 5: Using a Mapping to Keep Track of Requests
+
+The front-end can call the `setOracleInstanceAddress()` to set the address of the oracle.
+
+**Updating the ETH price**: Due to its asynchronous nature, there's no way the getLatestEthPrice function can return this bit of information.
+Instead, it returns a unique **id** for every request. Then, the oracle goes ahead and fetches the ETH price from the Binance API and executes a callback function exposed by the caller contract. 
+Lastly, the callback function updates the ETH price in the caller contract. The caller has no control over when it'll get a response.. it needs tokeep track of requests (using a mapping for example).
+
+example of mapping: `mapping(address => uint) public balances;`
+Initially, each value is initialized with the type's default value.
+Setting the balance for `msg.sender` to `someNewValue`: `balances[msg.sender] = someNewValue`.
