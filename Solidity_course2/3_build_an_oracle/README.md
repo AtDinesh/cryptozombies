@@ -64,3 +64,12 @@ Lastly, the callback function updates the ETH price in the caller contract. The 
 example of mapping: `mapping(address => uint) public balances;`
 Initially, each value is initialized with the type's default value.
 Setting the balance for `msg.sender` to `someNewValue`: `balances[msg.sender] = someNewValue`.
+
+## Chapter 6: the Callback Function
+
+Calling the Binance public API is an asynchronous operation. Thus, the caller smart contract must provide a callback function which the oracle should call at a later time, namely when the ETH price is fetched.
+How callback functions work:
+1. Make sure that the function can only be called for a valid `id` (use a `require` statement).
+2. Remove the `id` from the `myRequests` mapping (`delete myMapping[key]`).
+3. Fire an event to let the front-end know that the price was updated.
+
