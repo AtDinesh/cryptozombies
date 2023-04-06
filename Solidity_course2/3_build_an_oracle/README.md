@@ -73,3 +73,8 @@ How callback functions work:
 2. Remove the `id` from the `myRequests` mapping (`delete myMapping[key]`).
 3. Fire an event to let the front-end know that the price was updated.
 
+## Chapter 7: The onlyOracle Modifier
+
+The `onlyOracle` modifier will prevent other contracts from calling the callback.
+The modifier should just check that the address calling this function is oracleAddress.
+How to know the address taht calls a function? via `msg.sender`.

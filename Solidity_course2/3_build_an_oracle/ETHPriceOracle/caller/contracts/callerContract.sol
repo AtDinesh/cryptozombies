@@ -32,11 +32,16 @@ contract CallerContract is Ownable {
     }
 
     // this callback function is called by the oracle.
-    function callback(uint256 _ethPrice, uint256 _id) public {
+    function callback(uint256 _ethPrice, uint256 _id) public onlyOracle {
         // require myRequests[_id] == true
         require(myRequests[_id], "This request is not in my pending list.");
         ethPrice = _ethPrice;
         delete myRequests[_id];
         emit PriceUpdatedEvent(_ethPrice, _id);
+    }
+
+    modifier onlyOracle() {
+        require(msg.sender == oracleAddress, "You are not authorized to call this function.");
+        _;
     }
 }
