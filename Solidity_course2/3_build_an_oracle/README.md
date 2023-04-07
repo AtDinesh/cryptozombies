@@ -105,4 +105,16 @@ We need to make sure that only the owner can call this function.
 
 This function should also call the callback of the oracle contract instance.
 
-## Part 2
+## Part 2 - a Basic client
+
+### Chapter 1: Getting Set Up
+--> Create the JavaScript component of the oracle that fetches the ETH price from the Binance API + build a basic client.
+Reminder: build artifacts are comprised of the bytecode versions of the smart contracts, ABIs, and some internal data Truffle is using to correctly deploy the code.
+An ABI describes the interface between two computer programs (how functions can be called and how data is stored in a machine-readable format).
+
+#### Instantating the Oracle Contract
+Thanks to the ABI, the application know how to use the functions in the contracts that is instanciated (using `web3.eth.Contract.`):
+`const myContract = new web3js.eth.Contract(myContractJSON.abi, myContractJSON.networks[networkId].address)`
+
+The variable `networkId` identifies the network on which the contract is deployed. It must be resolved by calling `web3js.eth.net.getId()` and not hardcoded because it would
+require to update the variable every time the contracts is deployed on a different network.
