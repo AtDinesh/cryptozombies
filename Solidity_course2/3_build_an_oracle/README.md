@@ -134,3 +134,28 @@ myContract.events.EventName(async (err, event) => {
 
 ```
 The above triggers only when an event where `myParam` is equal to 1 gets fired.
+
+### Chapter 3: Adding a Request to the Processing Queue
+
+**You can access an event's return values through the returnValues object**.
+
+Example with `event TransferTokens(address from, address to, uint256 amount)`.
+
+Then we have:
+```
+async function parseEvent (event) {
+  const from = event.returnValues.from
+  const to = event.returnValues.to
+  const amount = event.returnValues.amount
+}
+```
+
+### Chapter 4&5: Looping through the processing queue 
+Processing the `pendingRequests` array in Node.js could be problematic for a very simple reason: JavaScript is single-threaded.
+
+A technique to solve this problem is to break the array into smaller chunks (up to `MAX_CHUNK_SIZE`), and process these chunks individually. To simplify things, after each chunk, the application will `sleep` for `SLEEP_INTERVAL` milliseconds.
+
+Retrieving elements in the `pendingRequest` array:
+In JavaScript, the `shift` method returns the first element of the array, removes the element from the array, and changes the length of the array.
+
+What does the processRequest function do ? It fetches the ETH price, and then calls the oracle smart contract.
