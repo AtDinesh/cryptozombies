@@ -159,3 +159,12 @@ Retrieving elements in the `pendingRequest` array:
 In JavaScript, the `shift` method returns the first element of the array, removes the element from the array, and changes the length of the array.
 
 What does the processRequest function do ? It fetches the ETH price, and then calls the oracle smart contract.
+
+### Chapter 6, 7, 8: The Retry Loop + try/catch
+Warning when retrieving the ETH price from the Binance public API:
+- if there is a network glitch, the request will fail.
+  - the caller contract will have to reinitiate the whole process from the beginning
+
+fix: implement a retry mechanism and a condition that breaks the retry loop. This retry mechanism is simply a while loop...
+
+*Note*: JavaScript allows you to write code that executes no matter whether an exception is thrown inside of the try block. These lines of codes should be placed inside of a finally block.
