@@ -95,7 +95,7 @@ uint randomNumber = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))
 Note1: the modulus here is used to take only the last 3 digits.
 Note2: This approach is not 100% secure, it is more secure to ask an oracle for a random number.
 
-## Chapter 10: The `setLatestEthPrice()` Function
+## Chapters 10 & 11: The `setLatestEthPrice()` Function
 
 The JavaScript component of the oracle retrieves the ETH price from the Binance public API and then calls the `setLatestEthPrice`, passing it the following arguments:
 - The ETH price,
