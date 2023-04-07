@@ -118,3 +118,19 @@ Thanks to the ABI, the application know how to use the functions in the contract
 
 The variable `networkId` identifies the network on which the contract is deployed. It must be resolved by calling `web3js.eth.net.getId()` and not hardcoded because it would
 require to update the variable every time the contracts is deployed on a different network.
+
+### Chapter 2: Listening for Events
+The JavaScript application gets notified through events that are emitted by the contracts.
+The app should pick specific events to process.
+
+```
+myContract.events.EventName(async (err, event) => {
+  if (err) {
+    console.error('Error on event', err)
+    return
+  }
+  // Do something
+})
+
+```
+The above triggers only when an event where `myParam` is equal to 1 gets fired.

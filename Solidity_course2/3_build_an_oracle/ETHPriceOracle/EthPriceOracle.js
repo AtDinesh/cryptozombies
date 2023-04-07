@@ -13,3 +13,22 @@ async function getOracleContract (web3js) {
   const networkId = await web3js.eth.net.getId()
   return new web3js.eth.Contract(OracleJSON.abi, OracleJSON.networks[networkId].address)
 }
+
+// Listen for events
+async function filterEvents(oracleContract, web3js) {
+  oracleContract.events.GetLatestEthPriceEvent( async (err, event) => {
+    if (err) {
+      console.error('Error on event', err)
+      return
+    }
+    await addRequestToQueue(event)
+  })
+
+  oracleContract.events.SetLatestEthPriceEvent( async (err, event) => {
+    if (err) {
+      console.error('Error on event', err)
+      return
+    }
+    // Do something
+  })
+}
