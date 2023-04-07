@@ -78,3 +78,29 @@ How callback functions work:
 The `onlyOracle` modifier will prevent other contracts from calling the callback.
 The modifier should just check that the address calling this function is oracleAddress.
 How to know the address taht calls a function? via `msg.sender`.
+
+## Chapters 8 & 9: The `getLatestEthPrice()` Function
+
+The oracle acts as a bridge enabling the caller contracts to access the ETH price feed. It justs implements `getLatestEthPrice` and `setLatestEthPrice`.
+To allow the callers to track their requests: 
+1. the `getLatestEthPrice` function should compute the request id
+2. `id` should be hard to guess for securoty reasons, e.g. a random number.
+
+First approach for generating a random number: using `keccak256`:
+```
+uint randNonce = 0;
+uint modulus = 1000;
+uint randomNumber = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % modulus;
+```
+Note1: the modulus here is used to take only the last 3 digits.
+Note2: This approach is not 100% secure, it is more secure to ask an oracle for a random number.
+
+## Chapter 10: The `setLatestEthPrice()` Function
+
+The JavaScript component of the oracle retrieves the ETH price from the Binance public API and then calls the `setLatestEthPrice`, passing it the following arguments:
+- The ETH price,
+- The address of the contract that initiated the request
+- The id of the request.
+We need to make sure that only the owner can call this function.
+
+This function should also call the callback of the oracle contract instance.
