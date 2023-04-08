@@ -201,3 +201,12 @@ function myAwesomeFunction () {
   return { one, two }
 }
 ```
+
+### Chapter 11; Wrapping up the oracle
+Due to JavaScript's single-threaded nature, we're processing the queue in batches and our thread will just sleep for SLEEP_INTERVAL milliseconds between each iteration.
+
+```
+setInterval(async () => {
+ doSomething()
+}, SLEEP_INTERVAL)
+```
