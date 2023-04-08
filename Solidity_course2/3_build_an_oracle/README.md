@@ -210,3 +210,53 @@ setInterval(async () => {
  doSomething()
 }, SLEEP_INTERVAL)
 ```
+
+### Chapitre 13: Deploy the contracts
+#### Generating the Private Keys
+2 private keys must be created, one for the caller contract and the other on for the oracle using the `scripts/gen-key.ks`:
+`node scripts/gen-key.js oracle/oracle_private_key`
+`node scripts/gen-key.js caller/caller_private_key`
+
+**Configuring Truffle**
+Let truffle know how to deploy on Extdev Testnet by adding a separate configuration.
+
+```
+const LoomTruffleProvider = require('loom-truffle-provider')
+
+const path = require('path')
+const fs = require('fs')
+
+module.exports = {
+  networks: {
+    extdev: {
+      provider: function () {
+        const privateKey = fs.readFileSync(path.join(__dirname, 'oracle_private_key'), 'utf-8')
+        const chainId = 'extdev-plasma-us1'
+        const writeUrl = 'wss://extdev-plasma-us1.dappchains.com/websocket'
+        const readUrl = 'wss://extdev-plasma-us1.dappchains.com/queryws'
+        return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey)
+      },
+      network_id: '9545242630824'
+    }
+  },
+  compilers: {
+    solc: {
+      version: '0.5.0'
+    }
+  }
+}
+```
+
+**Creating the migration files**
+The migration files are required to deploy the oracle and caller contracts.
+
+**Updating the package.json file**
+Deploying the contract would require to manually call:
+- `cd oracle && npx truffle migrate --network extdev --reset -all && cd ..`
+- `cd caller && npx truffle migrate --network extdev --reset -all && cd ..`
+
+To avoid doing this, it is possible to call these automatically by adding the commands in the `scripts` section.
+So you would just have to run `npm run deploy:all`
+
+Starting the oracle: `node EthPriceOracle.js`
+start the client: `node Client.js`

@@ -45,6 +45,10 @@
 // const { MNEMONIC, PROJECT_ID } = process.env;
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
+const LoomTruffleProvider = require('loom-truffle-provider')
+
+const path = require('path')
+const fs = require('fs')
 
 module.exports = {
   /**
@@ -96,6 +100,17 @@ module.exports = {
     //   network_id: 2111,   // This network is yours, in the cloud.
     //   production: true    // Treats this network as if it was a public net. (default: false)
     // }
+    extdev: {
+      provider: function () {
+        const privateKey = fs.readFileSync(path.join(__dirname, 'caller.
+        _private_key'), 'utf-8')
+        const chainId = 'extdev-plasma-us1'
+        const writeUrl = 'wss://extdev-plasma-us1.dappchains.com/websocket'
+        const readUrl = 'wss://extdev-plasma-us1.dappchains.com/queryws'
+        return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey)
+      },
+      network_id: '9545242630824'
+    }
   },
 
   // Set default mocha options here, use special reporters, etc.
@@ -106,7 +121,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.19",      // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.5.0",      // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
