@@ -181,3 +181,23 @@ The `BN.js` library help overcome this issue and it is recommended to use it whe
 How to use `BN.js`? Let's suppose the Binance API returns `169.87000000`.
 1. Get rid of the decimal separator: `aNumber = aNumber.replace('.', '')`
 2. Convert aNumber to BN: `const aNumber = new BN(aNumber, 10)`, 10 being the base.
+
+### Chapter 10: Returning multiple values in JavaScript
+Every time the oracle starts, it has to:
+- connect to Extdev TestNet by calling the `common.loadAccount` function
+- instantiate the oracle contract
+- start listening for events
+
+The function that does this should return a bunch of values needed by other functions:
+- `client` (an object the app uses to interact with the Extedev Testnet),
+- An instance of the oracle contract, and
+- `ownerAddress` (used in the `setLatestEthPrice` to specify the address that sends the transaction).
+
+In JavaScript, functions can't return multiple values... But this doesn't prevent a function from returning... an object or an array.
+```
+function myAwesomeFunction () {
+  const one = '1'
+  const two = '2'
+  return { one, two }
+}
+```
