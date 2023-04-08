@@ -168,3 +168,16 @@ Warning when retrieving the ETH price from the Binance public API:
 fix: implement a retry mechanism and a condition that breaks the retry loop. This retry mechanism is simply a while loop...
 
 *Note*: JavaScript allows you to write code that executes no matter whether an exception is thrown inside of the try block. These lines of codes should be placed inside of a finally block.
+
+### Chapter 9: Working with Numbers in Ethereum and JavaScript
+
+he Ethereum Virtual Machine doesn't support floating-point numbers.
+The workaround is to simply multiply the numbers in your front-end by `10**n`.
+Binance API returns 8 decimals. 1 ether is `10**18` wei. So the binance API return will also be multiplied by `10**10` to make sure no money is lost.
+
+The `Number` type in JavaScript is "double-precision 64-bit binary format IEEE 754 value" which supports only 16 decimals...
+The `BN.js` library help overcome this issue and it is recommended to use it when dealing with numbers.
+
+How to use `BN.js`? Let's suppose the Binance API returns `169.87000000`.
+1. Get rid of the decimal separator: `aNumber = aNumber.replace('.', '')`
+2. Convert aNumber to BN: `const aNumber = new BN(aNumber, 10)`, 10 being the base.
